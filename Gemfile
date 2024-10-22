@@ -70,7 +70,7 @@ gem "tailwindcss-rails", "~> 2.7"
 gem "byebug", "~> 11.1", :groups => [:development, :test]
 
 gem "pay", "~> 8.0"
-gem "stripe", "~> 12.6"
+gem "stripe", "~> 13.0"
 
 gem "x", "~> 0.14.1"
 
