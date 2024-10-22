@@ -65,7 +65,7 @@ end
 
 gem "omniauth-twitter2", "~> 0.1.0"
 
-gem "tailwindcss-rails", "~> 2.7"
+gem "tailwindcss-rails", "~> 3.0"
 
 gem "byebug", "~> 11.1", :groups => [:development, :test]
 
