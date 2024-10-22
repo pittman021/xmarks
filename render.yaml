@@ -1,12 +1,12 @@
 databases:
-  - name: xmarks
-    databaseName: xmarks
-    user: timpittman
+  - name: mysite
+    databaseName: mysite
+    user: mysite
     plan: free
 
 services:
   - type: web
-    name: xmarks
+    name: mysite
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
