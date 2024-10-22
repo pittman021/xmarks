@@ -20,7 +20,7 @@
       <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="flex flex-shrink-0 items-center">
           <a href="/">
-          <%= image_tag('follow_reader.png', alt: 'YourAppName', class:'h-10 w-10 w-auto') %>
+          <%= image_tag('x_reader.png', alt: 'YourAppName', class:'h-10 w-10 w-auto') %>
           </a>
         </div>
 
@@ -28,11 +28,11 @@
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <% unless current_page?(root_path) %>
-              <a href="/books" class="px-3 py-2 text-xl text-blue-950 hover:text-blue-350 font-bold">Books</a>
-              <a href="/bookmarks" class="px-3 py-2 text-xl text-blue-950 hover:text-blue-350 font-bold">Your Posts</a>
+              <a href="/books" class="px-3 py-2 text-xl hover:text-blue-350 font-bold">Books</a>
+              <a href="/bookmarks" class="px-3 py-2 text-xl hover:text-blue-350 font-bold">Your Posts</a>
             <% else %>
-            <a href="#pricing" class="px-3 py-2 text-xl text-blue-950 hover:text-blue-350 font-bold">Pricing</a>
-            <a href="#FAQ" class="px-3 py-2 text-xl text-blue-950 hover:text-blue-350 font-bold">FAQ</a>
+            <a href="#pricing" class="px-3 py-2 text-xl hover:text-blue-350 font-bold">Pricing</a>
+            <a href="#FAQ" class="px-3 py-2 text-xl hover:text-blue-350 font-bold">FAQ</a>
             <% end %>
 
           </div>
@@ -66,7 +66,7 @@
         <% else %>
           <!-- No Logged-in User (Get Started Button) -->
           <div class="relative ml-3">
-            <%= link_to '/auth/twitter2', class: "mt-6 bg-teal-300 hover:bg-blue-300   text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105  ", target: "_blank", role: "button", aria_expanded: "false", aria_haspopup: "true" do %>
+            <%= link_to '/auth/twitter2', class: "mt-6 bg-blue-600 hover:bg-blue-300 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105  ", target: "_blank", role: "button", aria_expanded: "false", aria_haspopup: "true" do %>
               <span class="sr-only">Get Started</span>
               <span class="ml-2 mr-2 text-white font-bold">Get Started</span>
             <% end %>

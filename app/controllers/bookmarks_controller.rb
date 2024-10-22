@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
   
     def index
       
-     if current_user.last_fetched_at.nil? || current_user.last_fetched_at < 15.minutes.ago
+     if current_user.last_fetched_at.nil? || current_user.last_fetched_at < 7.days.ago
         
         client = TwitterClient.new(current_user)
         tweets_saved = client.get_latest_x_activity
