@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= content_for(:title) || "FollowReader" %></title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+
+<%= yield :head %>
+
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon.png">
+
+<link rel="icon" href="<%= asset_path 'follow_reader_2.png' %>" type="image/png">
+
+<%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+<%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+<%= javascript_importmap_tags %>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inconsolata:wght@200..900&display=swap" rel="stylesheet">
+
+<script> 
+document.addEventListener("DOMContentLoaded", function() {
+  const flashMessage = document.getElementById('flash-message');
+  if (flashMessage) {
+    setTimeout(function() {
+      flashMessage.style.transition = 'opacity 0.5s ease';
+      flashMessage.style.opacity = '0';
+      setTimeout(function() { flashMessage.remove(); }, 500); // Remove after fadeout
+    }, 3000); // Adjust the time (3000ms = 3 seconds) as necessary
+  }
+
+});
+
+document.addEventListener("turbo:load", function() {
+  const userMenuButton = document.getElementById("user-menu-button");
+  const dropdownMenu = document.getElementById("dropdown-menu");
+
+  if (userMenuButton && dropdownMenu) {
+    // Toggle dropdown visibility when user clicks the profile image
+    userMenuButton.addEventListener("click", function(event) {
+      event.stopPropagation(); // Prevent the click from bubbling up and triggering the document listener
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close the dropdown if the user clicks outside of it
+    document.addEventListener("click", function(event) {
+      if (!userMenuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+        dropdownMenu.classList.add("hidden");
+      }
+    });
+  }
+});
+
+</script>
+</head>
+
+  <body class="">
+   <div class="">
+
+   <%= render '/layouts/homeNav', current_user: @current_user %>
+
+   <!-- Profile dropdown -->
+
+    <div id="flash-message">
+       <% if flash[:alert] %>
+      <div class="alert alert-danger">
+        <%= flash[:alert] %>
+      </div>
+      <% elsif flash[:notice] %>
+        <div class="text-center py-4 lg:px-4">
+          <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+          <span class="font-semibold mr-2 text-left flex-auto">  <%= flash[:notice] %></span>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="">
+    <%= yield %>
+    </div>
+  </div>
+  </body>
+</html>

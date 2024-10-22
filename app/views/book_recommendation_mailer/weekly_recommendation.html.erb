@@ -1,0 +1,13 @@
+<h1>Weekly Book Recommendations</h1>
+
+<p>Hello <%= @user.name %>,</p>
+
+<p>Here are your book recommendations for this week:</p>
+
+<ul>
+  <% @recommendations.each do |recommendation| %>
+    <li><strong><%= recommendation[:title] %></strong> by <%= recommendation[:author] %></li>
+  <% end %>
+</ul>
+
+<p>Enjoy your reading!</p>

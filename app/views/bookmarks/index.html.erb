@@ -1,0 +1,81 @@
+<main class="mx-auto max-w-3xl mt-8">
+
+  <!-- Tabs for navigating between Tweets, Bookmarks, and Authors -->
+  <div class="tabs">
+    <ul class="flex border-b">
+      <li class="mr-1">
+        <a class="inline-block py-2 px-4 text-blue-900 hover:text-blue-800 text-lg font-semibold" href="#all-tweets">All Tweets</a>
+      </li>
+      <li class="mr-1">
+        <a class="inline-block py-2 px-4 text-blue-500 hover:text-blue-800 text-lg font-semibold" href="#bookmarked-tweets">Bookmarked Tweets</a>
+      </li>
+    </ul>
+  </div>
+
+  <p class="text-gray-600">Over the past 30 days, you have <%= @tweets.count %> liked tweets and <%= @bookmarked_tweets.count %> bookmarked tweets being used to analyze books!</p>
+
+
+  <!-- Authors Bubble Section -->
+<div class="flex -space-x-4 mt-8">
+  <% @authors.each do |author| %>
+    <!-- Author Profile Image -->
+    <div class="flex-shrink-0">
+      <img class="h-14 w-14 rounded-full border-2 border-white shadow-lg" src="<%= author[:profile_image_url] %>" alt="<%= author[:name] %>'s profile image">
+    </div>
+  <% end %>
+</div>
+  
+  <!-- All Tweets Section -->
+  <div id="all-tweets" class="pt-4">
+    <h2 class="text-2xl font-bold mb-4">All Tweets from the Last 30 Days</h2>
+    <% @tweets.each do |tweet| %>
+      <div class="pt-2 mb-2 border-2 border-solid border-black px-4 flex space-x-4">
+          <!-- Profile Image -->
+          <div class="flex-shrink-0">
+            <img class="h-14 w-14 rounded-full" src="<%= tweet.author.profile_image_url %>" alt="author image">
+          </div>
+        
+          <!-- Text Content (Name and Username) -->
+          <div class="flex flex-col">
+            <h4 class="text-md font-bold"><%= tweet.author.name %></h4>
+            <p class="text-blue-500">
+              <a class="underline" href="https://twitter.com/<%= tweet.author.username %>" target="_blank">
+                @<%= tweet.author.username %>
+              </a>
+            </p>
+            <p class="text-gray-700"><%= tweet[:text] %></p>
+            <span class=""><%= time_ago_in_words(tweet[:posted_at]) %> ago </span>
+          </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- Bookmarked Tweets Section -->
+  <div id="bookmarked-tweets" class="pt-4">
+    <h2 class="text-2xl font-bold mb-4">Bookmarked Tweets</h2>
+    <% @bookmarked_tweets.each do |tweet| %>
+      <div class="pt-2 border-2 border-solid border-black px-4 flex space-x-4">
+          <!-- Profile Image -->
+          <div class="flex-shrink-0">
+            <img class="h-14 w-14 rounded-full" src="<%= tweet.author.profile_image_url %>" alt="author image">
+          </div>
+        
+          <!-- Text Content (Name and Username) -->
+          <div class="flex flex-col">
+            <h4 class="text-md font-bold"><%= tweet.author.name %></h4>
+            <p class="text-blue-500">
+              <a class="underline" href="https://twitter.com/<%= tweet.author.username %>" target="_blank">
+                @<%= tweet.author.username %>
+              </a>
+            </p>
+            <p class="text-gray-700"><%= tweet[:text] %></p>
+            <span class=""><%= time_ago_in_words(tweet[:posted_at]) %> ago </span>
+          </div>
+      </div>
+
+    <% end %>
+  </div>
+
+  
+
+</main>

@@ -1,0 +1,38 @@
+<main class="mx-auto max-w-3xl">
+  <div class=" gap-8">
+    
+    <div class="">
+      <div class="rounded-lg overflow-hidden">
+        <div class="mt-8">
+        <div class="flex justify-between items-center">
+        <!-- Centered Title -->
+        <h3 class="text-3xl font-bold text-center">Your Book Recommendations</h3>
+    
+        <!-- Button to Generate More Books (aligned to the right, closer to the title) -->
+        <div class="ml-4">
+        <% if @current_user.books.count < 3 || @current_user.payment_processor.processor_id.present? %>
+        <!-- Show "Get New Recs" button if user has fewer than 3 books or has a payment processor -->
+        <%= button_to 'Get New Recs', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-black text-white px-6 py-3 rounded hover:bg-gray-800" %>
+      <% else %>
+        <!-- Show "Get Started" button if user has 3 or more books and no payment processor -->
+        <%= button_to 'Get Started', checkouts_show_path, method: :get, remote: true, class: "bg-black text-white px-6 py-3 rounded hover:bg-gray-800" %>
+      <% end %>
+      
+        </div>
+      </div>
+      
+      <!-- Space below for additional text or content -->
+      <div class="">
+        <!-- Placeholder for your future text or content -->
+        <p class="text-gray-600">You have genreated <%= @books.count %> books from your post here history.  </p>
+      </div>
+      
+      <div id="book-recs">
+      <%= render partial: "book_list", locals: { books: @books } %>
+     </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>

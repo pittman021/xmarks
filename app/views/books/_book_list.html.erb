@@ -1,0 +1,38 @@
+<% @books.each_with_index do |book, index| %>
+    <div class="mt-8 mb-8">
+
+        <div class="flex">
+        
+            <div class="w-1/5 flex items-start align-middle justify-center">
+            <p class="text-6xl font-bold text-gray-400"><%= index + 1 %></p>
+           </div>
+
+        <div class="w-4/5 relative">
+
+            <a href="https://www.amazon.com/s?k=<%= book[:title] %>" target="_blank" class="absolute top-0 right-0 text-blue-600 underline">
+            Buy on Amazon
+            </a>
+
+            <p class="font-bold text-xl"><%= book[:title] %></p>
+            <p class="text-gray-500 text-lg"><%= book[:author] %></p></br>
+
+            <p class="font-medium">Summary</p>
+            <p class="mt-1 text-gray-700"><%= book[:summary] %></p></br>
+
+            <p class="font-medium">Why You Will Like it</p>
+            <p class="mt-1 text-gray-700"><%= book[:reason] %></p>
+
+            <p class="text-sm mt-1 text-gray-400">
+            Recommended about <%= time_ago_in_words(book[:created_at]) %> ago
+            </p></br>
+
+
+     <%= button_to 'Remove Book', book_path(book), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+
+
+    <!-- Divider -->
+    <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+  </div>
+  </div>
+
+    <% end %>
