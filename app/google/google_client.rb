@@ -2,7 +2,7 @@ class GoogleClient
 
 def fetch_book_data(book_title)
 
-  api_key = "AIzaSyCCXJ5DQXwGWBo0aAkyezVhy0toSPMOT4c"  # Replace with your actual Google Books API Key
+  api_key = ENV['GOOGLE_API_KEY']  # Replace with your actual Google Books API Key
   url = "https://www.googleapis.com/books/v1/volumes?q=#{book_title}&key=#{api_key}"
 
   # Make the GET request using RestClient
