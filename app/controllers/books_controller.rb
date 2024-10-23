@@ -7,6 +7,8 @@ class BooksController < ApplicationController
     end
 
     def show
+      @book = Book.find(params[:id])
+      puts @book.inspect
     end
 
     def destroy
@@ -57,13 +59,20 @@ class BooksController < ApplicationController
     end
 
     recommendations.each do |recommendation|
+
+      goog_client = GoogleClient.new
+      book_data = goog_client.fetch_book_data(recommendation['title'])
+
+      puts book_data
+      puts book_data[:image]
       # Create and save each book to the database
       Book.create!(
         user: current_user,
         title: recommendation['title'],
         author: recommendation['author'],
         summary: recommendation['summary'],
-        reason: recommendation['reason']
+        reason: recommendation['reason'],
+        image_url: book_data[:image]
       )
     end
 
@@ -82,17 +91,18 @@ class BooksController < ApplicationController
   def build_chatgpt_prompt(tweets_hash, books_hash)
     # Prepare the refined prompt with additional context for better personalization
     prompt = <<-PROMPT
-      Please analyze the following bookmarked and liked tweets and return 3 personalized book recommendations based on the themes, topics, or explicit books mentioned in these tweets. 
-      Priority should be given to books explicitly mentioned or directly referenced by the users in the tweets. Otherwise, recommendations should be derived from the dominant themes and topics found in the tweets.
-
-      The book recommendations must **exclude** any of the following previously recommended books:
-      #{books_hash}
-  
-      For each book recommendation, the "reason" must specifically mention:
-      - The **exact tweet content** that inspired the recommendation.
-      - The **user handles** of the accounts that posted the relevant tweets.
-      - An explanation of how the tweet aligns with the book's themes or content.
-      - If applicable, mention books explicitly discussed in the tweets.
+    Please analyze the following bookmarked and liked tweets and return 1 personalized book recommendation based on the themes, topics, or explicit books mentioned in these tweets. 
+    Priority should be given to books explicitly mentioned or directly referenced by the users in the tweets. Otherwise, recommendations should be derived from the dominant themes and topics found in the tweets.
+    
+    The book recommendations must **exclude** any of the following previously recommended books:
+    #{books_hash}
+    
+    For each book recommendation, the "reason" must be formatted as follows:
+    - Start with: "Because you liked (or bookmarked) this tweet about [insert topic], we recommend this book because..."
+    - The **exact tweet content** that inspired the recommendation must be referenced.
+    - Mention the **user handles** of the accounts that posted the relevant tweets.
+    - Explain how the themes or topics in the tweet align with the book's content.
+    - If applicable, mention books explicitly discussed in the tweets.
   
       The response should be in a fixed JSON format with the following structure:
       

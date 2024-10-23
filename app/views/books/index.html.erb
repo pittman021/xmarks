@@ -1,38 +1,67 @@
-<main class="mx-auto max-w-3xl">
-  <div class=" gap-8">
-    
-    <div class="">
-      <div class="rounded-lg overflow-hidden">
-        <div class="mt-8">
-        <div class="flex justify-between items-center">
-        <!-- Centered Title -->
-        <h3 class="text-3xl font-bold text-center">Your Book Recommendations</h3>
-    
-        <!-- Button to Generate More Books (aligned to the right, closer to the title) -->
-        <div class="ml-4">
-        <% if @current_user.books.count < 3 || @current_user.payment_processor.processor_id.present? %>
-        <!-- Show "Get New Recs" button if user has fewer than 3 books or has a payment processor -->
-        <%= button_to 'Get New Recs', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-black text-white px-6 py-3 rounded hover:bg-gray-800" %>
-      <% else %>
-        <!-- Show "Get Started" button if user has 3 or more books and no payment processor -->
-        <%= button_to 'Get Started', checkouts_show_path, method: :get, remote: true, class: "bg-black text-white px-6 py-3 rounded hover:bg-gray-800" %>
-      <% end %>
-      
-        </div>
-      </div>
-      
-      <!-- Space below for additional text or content -->
-      <div class="">
-        <!-- Placeholder for your future text or content -->
-        <p class="text-gray-600">You have genreated <%= @books.count %> books from your post here history.  </p>
-      </div>
-      
-      <div id="book-recs">
-      <%= render partial: "book_list", locals: { books: @books } %>
-     </div>
-        </div>
-      </div>
+<main class="mx-auto max-w-4xl p-6 bg-white">
+  <!-- Top Section: Progress Indicator and Generate Button -->
+  <div class="flex justify-between items-center mb-6">
+    <!-- Progress Indicator -->
+    <div>
+      <p class="text-gray-600 text-lg">
+        <% if @current_user.books.count < 3 %>
+          You have <%= 3 - @current_user.books.count %> out of 3 free book recommendations remaining.
+        <% else %>
+          You've used your free recommendations. Unlock unlimited recommendations with our premium plan!
+        <% end %>
+      </p>
     </div>
 
+    <!-- Generate New Books Button -->
+    <div>
+      <% if @current_user.books.count < 3 || @current_user.payment_processor.processor_id.present? %>
+        <!-- Show "Get New Recs" button if under 3 books or with payment processor -->
+        <%= button_to 'Generate New Book Recommendations', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" %>
+      <% else %>
+        <!-- Show "Upgrade to Premium" button if user has used free recs -->
+        <%= button_to 'Upgrade to Premium', checkouts_show_path, method: :get, remote: true, class: "bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700" %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Book Recommendations Section -->
+  <div class="space-y-6">
+    <h3 class="text-3xl font-bold text-center mb-6">Your Book Recommendations</h3>
+
+    <!-- Book Recommendation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <% @books.each do |book| %>
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+          <!-- Book Cover Image -->
+          <div class="mb-4">
+          <img class="w-40 h-52 object-cover rounded-lg shadow" src="<%= book.image_url %>" alt="<%= book.title %>">
+          </div>
+
+          <!-- Book Details -->
+          <div class="mb-4">
+            <!-- Book Title -->
+            <h4 class="text-xl font-semibold text-gray-800 mb-2"><%= book.title %></h4>
+            <!-- Author(s) -->
+            <p class="text-gray-500 italic mb-2"><%= book.author %></p>
+            <!-- Summary -->
+            <p class="text-gray-600 text-sm"><%= truncate(book.summary, length: 120) %></p>
+          </div>
+
+          <!-- Why You'll Like It -->
+          <p class="text-gray-700 text-sm font-medium mb-4">
+            <strong>Why You'll Like It:</strong> <%= truncate(book.reason, length: 120) %></strong>
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-between items-center">
+            <!-- Buy on Amazon Button -->
+            <a href="https://www.amazon.com/s?k=<%= book.title %>" target="_blank" class="text-blue-600 hover:underline">Buy on Amazon</a>
+            <a href="<%= book_path(book) %>" class="text-blue-500 hover:underline">Show Details</a>
+            <!-- Remove Book Button -->
+            <%= button_to 'Remove Book', book_path(book), method: :delete, remote: true, data: { turbo: true }, class: "text-red-600 hover:underline" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </main>

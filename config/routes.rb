@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   resources :checkouts, only: [:create]
   get 'checkouts/show', to: 'checkouts#show', as: 'checkouts_show'
   get "home/index"
-  get 'books', to: 'books#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -28,7 +27,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
 
-  resources :books
+  resources :books, only: [:index, :show, :destroy]
 
   # Defines the root path route ("/")
   # root "posts#index"

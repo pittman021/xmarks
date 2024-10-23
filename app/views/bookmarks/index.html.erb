@@ -16,14 +16,15 @@
 
 
   <!-- Authors Bubble Section -->
-<div class="flex -space-x-4 mt-8">
-  <% @authors.each do |author| %>
-    <!-- Author Profile Image -->
-    <div class="flex-shrink-0">
-      <img class="h-14 w-14 rounded-full border-2 border-white shadow-lg" src="<%= author[:profile_image_url] %>" alt="<%= author[:name] %>'s profile image">
-    </div>
-  <% end %>
-</div>
+  <div class="flex flex-wrap -space-x-4 mt-8">
+    <% @authors.each do |author| %>
+      <!-- Author Profile Image -->
+      <div class="flex-shrink-0">
+        <img class="h-14 w-14 rounded-full border-2 border-white shadow-lg" src="<%= author[:profile_image_url] %>" alt="<%= author[:name] %>'s profile image">
+      </div>
+    <% end %>
+  </div>
+  
   
   <!-- All Tweets Section -->
   <div id="all-tweets" class="pt-4">
