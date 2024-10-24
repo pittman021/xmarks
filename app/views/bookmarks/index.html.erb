@@ -12,7 +12,7 @@
     </ul>
   </div>
 
-  <p class="text-gray-600">Over the past 30 days, you have <%= @tweets.count %> liked tweets and <%= @bookmarked_tweets.count %> bookmarked tweets being used to analyze books!</p>
+  <p class="text-gray-600 mt-4">Over the past 30 days, you have <%= @tweets.count %> liked tweets and <%= @bookmarked_tweets.count %> bookmarked tweets being used to analyze books!</p>
 
 
   <!-- Authors Bubble Section -->
@@ -27,7 +27,7 @@
   
   
   <!-- All Tweets Section -->
-  <div id="all-tweets" class="pt-4">
+  <div id="all-tweets" class="pt-4 mr-4 ml-4">
     <h2 class="text-2xl font-bold mb-4">All Tweets from the Last 30 Days</h2>
     <% @tweets.each do |tweet| %>
       <div class="pt-2 mb-2 border-2 border-solid border-black px-4 flex space-x-4">
@@ -45,7 +45,8 @@
               </a>
             </p>
             <p class="text-gray-700"><%= tweet[:text] %></p>
-            <span class=""><%= time_ago_in_words(tweet[:posted_at]) %> ago </span>
+            <span class="mb-4"><%= time_ago_in_words(tweet[:posted_at]) %> ago </span>
+            <a href="https://x.com/<%= tweet.author.username %>/status/<%= tweet.twitter_id %>" class="mb-4"> View Tweet</a>
           </div>
       </div>
     <% end %>

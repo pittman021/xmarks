@@ -54,6 +54,24 @@ document.addEventListener("turbo:load", function() {
       }
     });
   }
+
+  document.addEventListener("turbo:submit-start", function(event) {
+  var button = document.getElementById("fetch-button");
+  var spinner = document.getElementById("loading-spinner");
+
+  // Show the loading spinner and disable the button
+  spinner.classList.remove("hidden");
+  button.disabled = true;
+});
+
+document.addEventListener("turbo:submit-end", function(event) {
+  var button = document.getElementById("fetch-button");
+  var spinner = document.getElementById("loading-spinner");
+
+  // Hide the loading spinner and enable the button again
+  spinner.classList.add("hidden");
+  button.disabled = false;
+});
 });
 
 </script>

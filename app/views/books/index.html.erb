@@ -20,7 +20,14 @@
     <div>
       <% if @current_user.books.count < 3 || @current_user.payment_processor.processor_id.present? %>
         <!-- Show "Get New Recs" button if under 3 books or with payment processor -->
-        <%= button_to 'Find a New Book', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" %>
+        <div id="button-container" class="relative inline-block">
+        <%= button_to 'Find a New Book', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700", id: "fetch-button" %>
+      
+        <!-- Loading overlay with spinner -->
+        <div id="loading-spinner" class="hidden absolute inset-0 bg-gray-100 bg-opacity-70 flex justify-center items-center">
+          <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+      </div>
       <% else %>
         <!-- Show "Upgrade to Premium" button if user has used free recs -->
         <%= button_to 'Upgrade to Premium', checkouts_show_path, method: :get, remote: true, class: "bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700" %>

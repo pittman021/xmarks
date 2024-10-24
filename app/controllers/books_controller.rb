@@ -45,8 +45,6 @@ class BooksController < ApplicationController
 
     openai_response = openai_client.get_book_recommendations(prompt)
 
-    puts openai_response
-
     recommendations_key = openai_response.keys.find do |key|
       ["book_recommendations", "bookRecommendations", "recommendations"].include?(key)
     end
@@ -63,8 +61,6 @@ class BooksController < ApplicationController
       goog_client = GoogleClient.new
       book_data = goog_client.fetch_book_data(recommendation['title'])
 
-      puts book_data
-      puts book_data[:image]
       # Create and save each book to the database
       Book.create!(
         user: current_user,
@@ -80,7 +76,7 @@ class BooksController < ApplicationController
 
     @books = recommendations
 
-    redirect_to books_path
+    redirect_to books_path, notice: "A new book recommendation was generated"
 
     # Redirect or render as needed
 
