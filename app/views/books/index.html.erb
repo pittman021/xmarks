@@ -4,10 +4,14 @@
     <!-- Progress Indicator -->
     <div>
       <p class="text-gray-600 text-lg">
-        <% if @current_user.books.count < 3 %>
-          You have <%= 3 - @current_user.books.count %> out of 3 free book recommendations remaining.
+        <% if @current_user.payment_processor.processor_id.present? %>
+           You purchased X Reader and can generate more book recommendations!
         <% else %>
-          You've used your free recommendations. Unlock unlimited recommendations with our premium plan!
+          <% if @current_user.books.count < 3  %>
+            You have <%= 3 - @current_user.books.count %> out of 3 free book recommendations remaining.
+          <% else %>
+            Purchase X Reader AI to unlock more book recommendations!
+          <% end %>
         <% end %>
       </p>
     </div>
@@ -55,10 +59,9 @@
           <!-- Action Buttons -->
           <div class="flex justify-between items-center">
             <!-- Buy on Amazon Button -->
-            <a href="https://www.amazon.com/s?k=<%= book.title %>" target="_blank" class="text-blue-600 hover:underline">Buy on Amazon</a>
+            <a href="https://www.amazon.com/s?k=<%= book.title %>" target="_blank" class="text-blue-600 hover:underline">Find on Amazon</a>
             <a href="<%= book_path(book) %>" class="text-blue-500 hover:underline">Show Details</a>
             <!-- Remove Book Button -->
-            <%= button_to 'Remove Book', book_path(book), method: :delete, remote: true, data: { turbo: true }, class: "text-red-600 hover:underline" %>
           </div>
         </div>
       <% end %>

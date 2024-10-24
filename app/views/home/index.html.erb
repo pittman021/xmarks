@@ -28,14 +28,14 @@
   <ul>
   </div>
 
-  <button class="mt-6 bg-blue-600 hover:bg-blue-300 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
-  Get Started
-</button>
 
   <!-- Call to Action Button -->
-  <%= link_to '/auth/twitter2', class: "relative flex items-center hover:scale-105 hover:bg-blue-300 bg-blue-500 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800", role: "button", aria_expanded: "false", aria_haspopup: "true" do %>
-      <p class=""Get Started</p>
-    <% end %>
+
+  <% unless @current_user %>
+  <%= link_to '/auth/twitter2', class: "mt-6 bg-blue-600 hover:bg-blue-300 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105  ", target: "_blank", role: "button", aria_expanded: "false", aria_haspopup: "true" do %>
+    <span class="ml-2 mr-2 text-white font-bold">Get Started</span>
+  <% end %>
+  <% end %>
 </div>
 
 
