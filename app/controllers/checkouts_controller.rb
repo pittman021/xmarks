@@ -5,9 +5,10 @@ class CheckoutsController < ApplicationController
   end
 
   def create
+
     @checkout_session = current_user.payment_processor.checkout(
       mode: "payment",
-      line_items: "price_1Q8Ms5H7DLN2Wk0X8jAkqxqO",
+      line_items: ENV['STRIPE_PRICE_ID'],
       allow_promotion_codes: true
     )
 

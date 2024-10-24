@@ -16,7 +16,7 @@
     <div>
       <% if @current_user.books.count < 3 || @current_user.payment_processor.processor_id.present? %>
         <!-- Show "Get New Recs" button if under 3 books or with payment processor -->
-        <%= button_to 'Generate New Book Recommendations', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" %>
+        <%= button_to 'Find a New Book', get_book_recs_path, method: :post, remote: true, data: { turbo: true }, class: "bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700" %>
       <% else %>
         <!-- Show "Upgrade to Premium" button if user has used free recs -->
         <%= button_to 'Upgrade to Premium', checkouts_show_path, method: :get, remote: true, class: "bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700" %>
