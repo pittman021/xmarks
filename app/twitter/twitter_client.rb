@@ -14,28 +14,32 @@ class TwitterClient
 
     # get liked tweets and author info for main processing including: 
     liked_tweets = get_liked_tweets
-    updated_tweets = add_user_info_to_tweets(liked_tweets)
-    recent_tweets = last_30_days(updated_tweets[:data])
-    
-    # get bookmarked tweets
-    bookmarks = get_bookmarks
-    updated_bookmarks = add_user_info_to_tweets(bookmarks)
-    recent_bookmarks = last_30_days(bookmarks[:data])
 
-    # save twetts and bookmarks 
-    save_tweets(recent_tweets, 'like')
-    save_tweets(recent_bookmarks, 'bookmark')
+    puts "liked tweets #{liked_tweets[:data]}"
+
+    if liked_tweets && liked_tweets[:data]
+      updated_tweets = add_user_info_to_tweets(liked_tweets)
+      save_tweets(updated_tweets, 'like')
+    end
+
+    bookmarks = get_bookmarks
+
+    puts "bookmarks #{bookmarks[:data]}"
+
+    if bookmarks && bookmarks[:data]
+      updated_bookmarks = add_user_info_to_tweets(bookmarks)
+      save_tweets(updated_bookmarks, 'bookmark')
+    end
+    
     end
 
     def save_tweets(recent_tweets, tweet_type)
 
       Tweet.where('owner_id = ? AND posted_at < ?', @user.id, 30.days.ago).destroy_all
 
-      recent_tweets.each do |tweet|
+      recent_tweets[:data].each do |tweet|
 
         if tweet[:created_at] > 30.days.ago.utc
-
-        puts "#{tweet_type} - #{tweet[:created_at]}"
         # Extract the author information from :author_info
         author_data = tweet[:author_info]
       
@@ -127,28 +131,6 @@ class TwitterClient
       get "/"
   end
   
-    def get_spaces_by_creator_ids(creator_ids)
-      query = {
-        user_ids: creator_ids.join(','),
-        expansions: 'speaker_ids,creator_id,host_ids',
-        'topic.fields': 'name,description',
-        'user.fields': 'username,name,location',
-        'space.fields':'host_ids,created_at,creator_id,id,lang,invited_user_ids,participant_count,speaker_ids,started_at,ended_at,subscriber_count,topic_ids,state,title,updated_at,scheduled_start,is_ticketed',
-      }.to_query
-      get "/spaces/by/creator_ids?#{query}"
-    end
-  
-    def my_spaces
-      query = {
-        user_ids: @user.twitter_id,
-        expansions: 'speaker_ids,creator_id,host_ids',
-        'topic.fields': 'name,description',
-        'user.fields': 'username,name,location',
-        'space.fields':'host_ids,created_at,creator_id,id,lang,invited_user_ids,participant_count,speaker_ids,started_at,ended_at,subscriber_count,topic_ids,state,title,updated_at,scheduled_start,is_ticketed',
-      }.to_query
-      get "/spaces/by/creator_ids?#{query}"
-    end
-  
     def get_bookmarks
       query = {
         'tweet.fields': 'created_at',
@@ -235,8 +217,7 @@ class TwitterClient
       params = {
         method: method,
         url: "#{BASE_URL}#{path}",
-        headers: headers, 
-        max_results: 10
+        headers: headers
       }
 
       if method == :put || method == :post

@@ -72,6 +72,8 @@
             </p>
             <p class="text-gray-700"><%= tweet[:text] %></p>
             <span class=""><%= time_ago_in_words(tweet[:posted_at]) %> ago </span>
+            <a href="https://x.com/<%= tweet.author.username %>/status/<%= tweet.twitter_id %>" class="mb-4"> View Tweet</a>
+
           </div>
       </div>
 

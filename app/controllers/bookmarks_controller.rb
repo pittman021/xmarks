@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
   
     def index
       
-     if current_user.last_fetched_at.nil? || current_user.last_fetched_at < 7.days.ago
+     if current_user.last_fetched_at.nil? || current_user.last_fetched_at > 1.minutes.ago
         
         client = TwitterClient.new(current_user)
         tweets_saved = client.get_latest_x_activity
@@ -12,6 +12,8 @@ class BookmarksController < ApplicationController
 
      # Get all tweets from the last 30 days
      @tweets = Tweet.where(owner_id: current_user.id, liked: true).includes(:author)
+
+     puts @tweets
 
      # Filter tweets that are bookmarked
      @bookmarked_tweets = Tweet.where(owner_id: current_user.id, bookmarked: true).includes(:author)
@@ -29,7 +31,6 @@ class BookmarksController < ApplicationController
                    }
                  end
   puts @bookmarked_tweets
-
 
                 end
 end
